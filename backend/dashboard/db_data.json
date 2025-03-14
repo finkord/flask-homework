@@ -1,0 +1,73 @@
+{
+    "groups": [
+        {
+            "name": "Tools Docs",
+            "icon": "fa-solid fa-screwdriver-wrench",
+            "items": [
+                 {
+                    "name": "Jenkins",
+                    "logo": "img/jenkins.svg",
+                    "url": "https://www.jenkins.io/doc/book/"
+                },
+                {
+                    "name": "Terraform",
+                    "logo": "img/tf.svg",
+                    "tag": "app",
+                    "url": "https://developer.hashicorp.com/terraform?product_intent=terraform"
+                },
+                {
+                    "name": "Docker",
+                    "logo": "img/docker.png",
+                    "url": "https://docs.docker.com/"
+                }
+            ]
+        },
+        {
+            "name": "Cloud providers",
+            "icon": "fas fa-cloud",
+            "items": [
+                 {
+                    "name": "AWS",
+                    "logo": "img/aws.png",
+                    "url": "https://aws.amazon.com/"
+                },
+                {
+                    "name": "GCP",
+                    "logo": "img/gcp.png",
+                    "url": "https://cloud.google.com/"
+                },
+                {
+                    "name": "Azure",
+                    "logo": "img/azure.png",
+                    "url": "https://azure.microsoft.com/"
+                }
+            ]
+        },
+        {
+            "name": "Articles",
+            "icon": "fa-solid fa-newspaper",
+            "items": [
+                 {
+                    "name": "What is CI/CD",
+                    "logo": "img/cicd.png",
+                    "url": "https://about.gitlab.com/topics/ci-cd/"
+                },
+                {
+                    "name": "Bash scripting",
+                    "logo": "img/bash.png",
+                    "url": "https://github.com/bobbyiliev/introduction-to-bash-scripting"
+                },
+                {
+                    "name": "How git works",
+                    "logo": "img/git.png",
+                    "url": "https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F"
+                },
+                {
+                    "name": "Linux cheatsheet",
+                    "logo": "img/linux.png",
+                    "url": "https://www.stationx.net/linux-command-line-cheat-sheet/"
+                }
+            ]
+        }
+    ]
+}

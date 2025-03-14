@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Link</title>
+    <link rel="icon" href="static/img/logo2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Dashboard</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add_link.html">Add Link</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container" style="margin-top: 50px;">
+            <form id="add-link-form" method="post">
+                <div class="form-group">
+                    <label for="group">Select Group</label>
+                    <select id="group" name="group" class="form-control" onchange="toggleNewGroupFields()">
+                        <option value="">Create New Group</option>
+                        <!-- Groups will be populated by JavaScript -->
+                    </select>
+                </div>
+                <div id="new-group-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="new_group_name">New Group Name</label>
+                        <input type="text" id="new_group_name" name="new_group_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_group_icon">New Group Icon</label>
+                        <input type="text" id="new_group_icon" name="new_group_icon" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="link_name">Link Name</label>
+                    <input type="text" id="link_name" name="link_name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="link_url">Link URL</label>
+                    <input type="url" id="link_url" name="link_url" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="link_logo">Link Logo</label>
+                    <input type="text" id="link_logo" name="link_logo" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Add Link</button>
+            </form>
+        </div>
+    </main>
+    <script>
+        function toggleNewGroupFields() {
+            var groupSelect = document.getElementById('group');
+            var newGroupFields = document.getElementById('new-group-fields');
+            if (groupSelect.value === "") {
+                newGroupFields.style.display = 'block';
+            } else {
+                newGroupFields.style.display = 'none';
+            }
+        }
+
+        // Call the function on page load to set the correct initial state
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleNewGroupFields();
+
+            // Fetch groups from the API and populate the select element
+            fetch('/api/groups')
+                .then(response => response.json())
+                .then(data => {
+                    const groupSelect = document.getElementById('group');
+                    data.groups.forEach(group => {
+                        const option = document.createElement('option');
+                        option.value = group.id;
+                        option.textContent = group.group_name;
+                        groupSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching groups:', error));
+
+            // Handle form submission
+            document.getElementById('add-link-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+
+                // Check if a new group is being created
+                if (formData.get('group') === "") {
+                    // Create new group
+                    const newGroupData = {
+                        new_group_name: formData.get('new_group_name'),
+                        new_group_icon: formData.get('new_group_icon')
+                    };
+
+                    fetch('/api/groups', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newGroupData)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .catch(error => console.error('Error adding group:', error));
+                } 
+                // Add the link directly
+                fetch('/api/links', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Link added successfully!');
+                    window.location.href = '/';
+                })
+                .catch(error => console.error('Error adding link:', error));
+                
+            });
+        });
+    </script>
+</body>
+</html>

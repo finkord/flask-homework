@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Useful links</title>
+    <link rel="icon" href="static/img/logo2.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Dashboard</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="add_link.html">Add Link</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="container" id="container">
+            <!-- Content will be populated by JavaScript -->
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/api/links/groupped')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const container = document.getElementById('container');
+                    data.groups.forEach(group => {
+                        const groupDiv = document.createElement('div');
+                        groupDiv.classList.add('group');
+    
+                        const groupHeader = document.createElement('h2');
+                        const groupIcon = document.createElement('div');
+                        groupIcon.classList.add('icon');
+                        groupIcon.innerHTML = `<i class="${group.icon}"></i>`;
+                        groupHeader.appendChild(groupIcon);
+                        groupHeader.appendChild(document.createTextNode(group.name));
+                        groupDiv.appendChild(groupHeader);
+    
+                        const itemList = document.createElement('ul');
+                        group.items.forEach(item => {
+                            const itemLi = document.createElement('li');
+                            const itemLink = document.createElement('a');
+                            itemLink.href = item.url;
+                            itemLink.target = '_blank';
+                            itemLink.classList.add('item-link');
+                            itemLink.innerHTML = `<img src="static/${item.logo}" alt="${item.name}"> ${item.name}`;
+                            itemLi.appendChild(itemLink);
+                            itemList.appendChild(itemLi);
+                        });
+                        groupDiv.appendChild(itemList);
+    
+                        container.appendChild(groupDiv);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>
