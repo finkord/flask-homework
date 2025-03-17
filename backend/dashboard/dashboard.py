@@ -19,27 +19,27 @@ def get_groupped_links():
         })
     return {'groups': data}
 
-@bp.route("/api/links", methods=['GET'])
+@bp.route("/links", methods=['GET'])
 def get_links():
     pass
     ## TODO: Return all links
 
-@bp.route("/api/links/groupped", methods=['GET'])
+@bp.route("/links/groupped", methods=['GET'])
 def get_links_groupped():
     pass
     ## TODO: Return all links groupped by group
 
-@bp.route('/api/links', methods=['POST'])
+@bp.route('/links', methods=['POST'])
 def add_link():
     pass
     ## TODO: Add a new link 
 
-@bp.route('/api/groups', methods=['GET'])
+@bp.route('/groups', methods=['GET'])
 def get_groups():
     pass
     ## TODO: Return all groups
 
-@bp.route('/api/groups', methods=['POST'])
+@bp.route('/groups', methods=['POST'])
 def add_group():
     pass
     ## TODO: Add a new group
