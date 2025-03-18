@@ -21,13 +21,21 @@ def get_groupped_links():
 
 @bp.route("/links", methods=['GET'])
 def get_links():
-    pass
-    ## TODO: Return all links
+    # Return all links
+    db = get_db()
+    links = db.execute('SELECT * FROM links').fetchall()
+    return jsonify({
+        "message":"Links",
+        "data":[dict(links) for links in links]
+    })
+    return jsonify([{'id': link['id'], 'name': link['name'], 'url': link['link'], 'logo': link['logo']} for link in links])
+
+
 
 @bp.route("/links/groupped", methods=['GET'])
 def get_links_groupped():
-    pass
-    ## TODO: Return all links groupped by group
+    # Return all links groupped by group
+    return jsonify(get_groupped_links())
 
 @bp.route('/links', methods=['POST'])
 def add_link():
@@ -43,3 +51,4 @@ def get_groups():
 def add_group():
     pass
     ## TODO: Add a new group
+
